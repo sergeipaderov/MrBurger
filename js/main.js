@@ -68,8 +68,6 @@ $(function() {
 				nextSection = activeSection.next(),
 				prevSection = activeSection.prev();
 
-		console.log('keydown');
-
 		if (e.keyCode == 40) {
 			if (nextSection.length) {
 			scrollToSection(nextSection.index());
@@ -82,6 +80,26 @@ $(function() {
 		}
 	});
 
+});
+
+
+/* ----- slider ----- */
+
+$(function () {
+
+	var burgerCarousel = $('.burgers-slider').owlCarousel ({
+		items: 1,
+		loop: true
+	});
+	$('.burger-slider__btn_next').on('click', function(e) {
+			e.preventDefault();
+			burgerCarousel.trigger('next.owl.carousel');
+	});
+
+	$('.burger-slider__btn_prev').on('click', function(e) {
+			e.preventDefault();
+			burgerCarousel.trigger('prev.owl.carousel');
+	});
 });
 
 
