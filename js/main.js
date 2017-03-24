@@ -23,6 +23,9 @@ $(function() {
 
 				setTimeout(function functionName() {
 					inScroll = false;
+
+					$('.fixed-menu__item').eq(sectionEq).addClass('active')
+						.siblings().removeClass('active');
 				}, 1300)
 			}
 	}
@@ -35,11 +38,48 @@ $(function() {
 				prevSection = activeSection.prev();
 
 		if (deltaY > 0) {
-			scrollToSection(nextSection.index());
+				if (nextSection.length) {
+				scrollToSection(nextSection.index());
+			}
 		}	else if (deltaY < 0) {
-			scrollToSection(prevSection.index());
+				if (prevSection.length) {
+				scrollToSection(prevSection.index());
+			}
 		}
+	});
 
+	$(".down-arrow").on('click', function(e) {
+		e.preventDefault();
+
+		scrollToSection(1);
+	});
+
+	$('.fixed-menu__link, .nav__link, .order-link').on('click', function(e) {
+			e.preventDefault();
+
+			var href = parseInt($(this).attr('href'));
+
+			scrollToSection(href);
+	});
+
+	$(document).on('keydown', function(e) {
+
+		var activeSection = sections.filter('.active'),
+				nextSection = activeSection.next(),
+				prevSection = activeSection.prev();
+
+		console.log('keydown');
+
+		if (e.keyCode == 40) {
+			if (nextSection.length) {
+			scrollToSection(nextSection.index());
+			}
+
+		} else if (e.keyCode == 38) {
+			if (prevSection.length) {
+			scrollToSection(prevSection.index());
+			}
+		}
 	});
 
 });
