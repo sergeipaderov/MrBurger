@@ -1,10 +1,57 @@
+// one page scroll
+$(function() {
+
+	var sections = $('.section'),
+			display = $('.maincontent');
+			inScroll = false;
+
+	var scrollToSection = function(sectionEq) {
+			var position = 0;
+
+			if (!inScroll) {
+
+				inScroll = true;
+
+				position = (sections.eq(sectionEq).index() * -100) + '%';
+
+				sections.eq(sectionEq).addClass('active')
+						.siblings().removeClass('active');
+
+				display.css({
+					'transform' : 'translate3d(0, ' + position + ', 0)'
+				});
+
+				setTimeout(function functionName() {
+					inScroll = false;
+				}, 1300)
+			}
+	}
+
+	$('.wrapper').on("wheel", function(e) {
+
+		var deltaY = e.originalEvent.deltaY;
+				activeSection = sections.filter('.active'),
+				nextSection = activeSection.next(),
+				prevSection = activeSection.prev();
+
+		if (deltaY > 0) {
+			scrollToSection(nextSection.index());
+		}	else if (deltaY < 0) {
+			scrollToSection(prevSection.index());
+		}
+
+	});
+
+});
+
+
 /* ----- yandex-maps ----- */
 
 $(function() {
 	ymaps.ready(init);
     var myMap;
 
-    function init(){     
+    function init(){
         myMap = new ymaps.Map("map", {
             center: [59.91815363876071, 30.30557799999997],
             zoom: 11,
@@ -34,7 +81,7 @@ $(function() {
 		}
 		*/
 
-		
+
 
 		var myPlacemark = new ymaps.Placemark([59.91815363876071, 30.30557799999997], {}, {
         iconLayout: 'default#image',
