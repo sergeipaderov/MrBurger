@@ -54,7 +54,7 @@ $(function() {
 		scrollToSection(1);
 	});
 
-	$('.fixed-menu__link, .nav__link, .order-link').on('click', function(e) {
+	$('.fixed-menu__link, .nav__link, .order-link, .burgers-slider__buy').on('click', function(e) {
 			e.preventDefault();
 
 			var href = parseInt($(this).attr('href'));
@@ -201,6 +201,44 @@ $(function () {
 		$.fancybox.close();
 	});
 });
+
+
+
+/* ----- form submit ----- */
+
+$(function () {
+	$('#order-form').on('submit', function (e) {
+		e.preventDefault();
+
+		var form = $(this),
+           formData = form.serialize();
+       console.log(formData);
+       $.ajax({
+           url: "/mail.php",
+           type: 'POST',
+           context: formData
+       }).done(function (data) {
+           var popup = data.status ? '#success' : '#error';
+           $.fancybox.open({
+               src: popup,
+               type: 'inline',
+               maxWidth: 250,
+               fitToView: false,
+               padding: 0,
+               opts: {
+                   afterClose: function () {
+                       form.trigger('reset');
+                   }
+               }
+           });
+           $('.status-popup__close').on('click', function (e) {
+               e.preventDefault();
+               $.fancybox.close();
+           })
+       });
+   });
+}());
+
 
 
 /* ----- yandex-maps API ----- */
